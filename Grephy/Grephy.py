@@ -6,19 +6,23 @@ def run():
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', help="Option to Specify NFA file")
     parser.add_argument('-d', help="Option to Specify DFA file")
-    parser.add_argument('REGEX', help="Regex file Location")
-    parser.add_argument('INPUT', help="Input file Location")
+    parser.add_argument('REGEX', help="Regex file Location", type=str)
+    parser.add_argument('INPUT', help="Input file Location", type=str)
     args = parser.parse_args()
-    linematch()
+    regexextract(args.REGEX, args.INPUT)
 
 
-def regexextract():
-    inputfile = open("input.txt", "r")
+def regexextract(rfile, ifile):
+    inputfile = open(rfile, "r").readline().strip()
+    regex = "^" + inputfile + "$"
+    print("REGEX PATTERN FOUND: "+regex)
+    linematch(regex, ifile)
 
 
-def linematch():
-    inputfile = open("input.txt", "r")
-    regex = re.compile(r'^apple$')
+def linematch(pattern, file):
+    inputfile = open(file, "r")
+    regex = re.compile(pattern)
+    print("\nMATCHES FOUND:")
     for line in inputfile:
         matches = regex.findall(line)
         for word in matches:
