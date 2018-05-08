@@ -1,5 +1,10 @@
 import argparse
 import re
+from alphabet import define_alphabet
+from postfix import postfix_conversion
+from nfa import nfa_conversion
+from dfa import dfa_conversion
+from evaluate import evaluate_dfa
 
 
 def run():
@@ -9,20 +14,18 @@ def run():
     parser.add_argument('REGEX', help="Regex file Location", type=str)
     parser.add_argument('INPUT', help="Input file Location", type=str)
     args = parser.parse_args()
-    regexextract(args.REGEX, args.INPUT)
-
-
-def regexextract(rfile, ifile):
-    inputfile = open(rfile, "r").readline().strip()
-    regex = "^" + inputfile + "$"
-    print("REGEX PATTERN FOUND: "+regex)
-    linematch(regex, ifile)
+    alphabet = define_alphabet(args.INPUT)
+    postfixconvert = postfix_conversion(args.REGEX, alphabet)
+    nfaconvert = nfa_conversion(postfixconvert)
+    dfaconvert = dfa_conversion(nfaconvert, alphabet)
+    evaluate_dfa(dfaconvert, args.INPUT)
+    linematch(args.REGEX, args.INPUT)
 
 
 def linematch(pattern, file):
     inputfile = open(file, "r")
     regex = re.compile(pattern)
-    print("\nMATCHES FOUND:")
+    print("\nMATCHES FOUND FROM BUILT IN PYTHON REGEX:")
     for line in inputfile:
         matches = regex.findall(line)
         for word in matches:
