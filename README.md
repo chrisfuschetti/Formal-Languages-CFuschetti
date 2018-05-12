@@ -32,7 +32,7 @@ There where others including many stackoverflow pages, but those are the main he
 
 To run:
 
-run the Grephy.py  with the regex first using | * () thena after a space the file to be tested is stated, the default being input.txt
+run the Grephy.py  with the regex first using | * () then after a space the file name to be tested is stated, the default being input.txt
 
 the -n and -d options can be followed by names for the nfa and dfa output pdfs, they defualt to nfa and dfa if this is not specified
 
