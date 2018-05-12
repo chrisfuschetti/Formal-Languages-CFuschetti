@@ -1,3 +1,9 @@
+# postfix to nfa using thompsons construction, explained more in readme
+
+
+from graphviz import *
+
+
 def nfa_conversion(postfix):
     class NfaState:
         def __init__(self, char):
@@ -47,6 +53,8 @@ def nfa_conversion(postfix):
             else:
                 state.primary_transition = primary_transition
 
+# where unfinished nfa fragments are stored before they get completed
+
     subnfalist = []
     for index in postfix:
         if index == '.':
@@ -62,3 +70,38 @@ def nfa_conversion(postfix):
         bind_fragment(final_fragment.primary_transition, NfaState(-2))
         return final_fragment.start
     return NfaState(-2)
+
+# the library graphviz is used to acheiv graphical representations - explained in readme
+
+
+def convert_dot_graphviz_nfa(nfa, n):
+    index = 0
+    queue = []
+    state = nfa
+    queue.append(state)
+    nfastates = {}
+    nfastates[state] = 'q' + str(index)
+    graphviznfa = Digraph(comment="NFA", graph_attr={'rankdir': 'LR'}, node_attr={'shape': 'circle'})
+
+    while queue:
+        state = queue.pop()
+        if state.primary_transition is not None and state.primary_transition not in nfastates:
+            index = index + 1
+            queue.append(state.primary_transition)
+            nfastates[state.primary_transition] = 'q' + str(index)
+        if state.or_split is not None and state.or_split not in nfastates:
+            index = index + 1
+            queue.append(state.or_split)
+            nfastates[state.or_split] = 'q' + str(index)
+        if state.char is -2:
+            graphviznfa.node(nfastates[state], shape='doublecircle')
+        elif state.char is not -1:
+            graphviznfa.node(nfastates[state])
+            graphviznfa.edge(nfastates[state], nfastates[state.primary_transition], state.char)
+        elif state.char is -1:
+            graphviznfa.edge(nfastates[state], nfastates[state.primary_transition], 'epsilon')
+            graphviznfa.edge(nfastates[state], nfastates[state.or_split], 'epsilon')
+    file = open(n, "w")
+    file.write(graphviznfa.source)
+    file.close()
+    graphviznfa.render(n, view=True)

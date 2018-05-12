@@ -1,3 +1,7 @@
+# This file extracts the input file and finds the alphabet inside it
+# the set type makes it easy to only get unique  characters
+
+
 def define_alphabet(inputfile):
     alphabet = set()
     file = open(inputfile, "r")

@@ -1,4 +1,12 @@
+# sys import required for exit with condition code
+# need for postfix explained in readme
+
+
 import sys
+
+
+# for each operator this for loop moves them to the postfix position
+# a stack is required to keep track of parens for the scope of operations
 
 
 def postfix_conversion(regex, alphabet):

@@ -1,8 +1,11 @@
+# this file uses the constructed dfa against the input file to find matches
+
+
 def evaluate_dfa(dfa, infile):
     print("\nMATCHES FOUND FROM DFA EVALUATION: ")
-    f = open(infile, "r")
-    lines = f.read().splitlines()
-    f.close()
+    file = open(infile, "r")
+    lines = file.read().splitlines()
+    file.close()
     for line in lines:
         current_state = dfa.start
         for char in line:
@@ -11,5 +14,5 @@ def evaluate_dfa(dfa, infile):
             else:
                 current_state = None
                 break
-        if current_state and current_state.accept_reject == True:
+        if current_state and current_state.accept_reject is True:
             print(line)
