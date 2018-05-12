@@ -1,0 +1,24 @@
+1.
+aaaaaaaaaab
+bbbbbbbbbbbbbbbbbbbaa
+caba
+
+REGEX: a*b|b*aa
+
+caba should fail
+
+
+2.
+apple
+orange
+
+REGEX:
+apple
+
+3.
+aaaaaaaaa
+b
+aaaaa
+
+REGEX:
+a*|b
