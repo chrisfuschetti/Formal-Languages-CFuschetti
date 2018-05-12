@@ -36,3 +36,20 @@ run the Grephy.py  with the regex first using | * () thena after a space the fil
 
 the -n and -d options can be followed by names for the nfa and dfa output pdfs, they defualt to nfa and dfa if this is not specified
 
+
+
+
+Code Explanation:
+
+The main grephy file runs everything first it converts the regex into postfix which is required in order to properly turn it into an NFA, by leaving the operator until after the opperands when the program sees an operator as the current token it already knows what objects that operation needs to be applied to.
+
+It then uses thompsons' construction which describes regex as 3 simple nfa's that can be combine together by epsilon transitions like we saw in class. It sifts through the postfix array and builds the nfa from there. At times it holds nfa fragments on a stack while they await to finish all their transitions. It adds the missing transition states to the nfa and returns a dfa.
+
+Finally the program uses evaluate.py to traverse the dfa and see whether or not to reject or accept.
+
+The other supporting program is alphabet.py which simply extracts the value of the imput file, using set in python to keep items in the list unique.
+
+I am including a file "Testcases.txt" which will have inputs and the regex to test them against.
+
+Then the DFA does subset construction to eliminate all the epsilons in the NFA. 
+
