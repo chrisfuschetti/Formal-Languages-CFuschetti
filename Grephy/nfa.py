@@ -76,22 +76,22 @@ def nfa_conversion(postfix):
 
 def convert_dot_graphviz_nfa(nfa, n):
     index = 0
-    queue = []
+    nfastatearray = []
     state = nfa
-    queue.append(state)
+    nfastatearray.append(state)
     nfastates = {}
     nfastates[state] = 'q' + str(index)
     graphviznfa = Digraph(comment="NFA", graph_attr={'rankdir': 'LR'}, node_attr={'shape': 'circle'})
 
-    while queue:
-        state = queue.pop()
+    while nfastatearray:
+        state = nfastatearray.pop()
         if state.primary_transition is not None and state.primary_transition not in nfastates:
             index = index + 1
-            queue.append(state.primary_transition)
+            nfastatearray.append(state.primary_transition)
             nfastates[state.primary_transition] = 'q' + str(index)
         if state.or_split is not None and state.or_split not in nfastates:
             index = index + 1
-            queue.append(state.or_split)
+            nfastatearray.append(state.or_split)
             nfastates[state.or_split] = 'q' + str(index)
         if state.char is -2:
             graphviznfa.node(nfastates[state], shape='doublecircle')
